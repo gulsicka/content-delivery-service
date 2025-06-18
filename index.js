@@ -1,6 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const useragent = require('express-useragent');
 const cookieParser = require('cookie-parser');
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 const app = express();
 const port = 3000;
 
@@ -688,316 +691,316 @@ function isBot(req) {
 app.get('/', (req, res) => {
     const isBot1 = isBot(req);
     console.log('Is Bot:', isBot1);
-    if (isBot1) {
-        console.log('Serving bot content');
-        // Serve harmless content to bots
-        const blogContent = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Pawsome Playhouse - Your Ultimate Guide to Dog Playhouses</title>
-            <meta name="description" content="Discover the best dog playhouses, DIY guides, and expert tips for creating the perfect play space for your furry friend. From luxury designs to budget-friendly options.">
-            <meta name="author" content="Dr. Sarah Johnson, Canine Behavior Specialist">
-            <meta property="og:title" content="Pawsome Playhouse - Expert Guide to Dog Playhouses">
-            <meta property="og:description" content="Your comprehensive resource for dog playhouses, featuring expert advice, DIY guides, and the latest trends in canine architecture.">
-            <meta property="og:type" content="article">
-            <meta property="og:url" content="https://pawsomeplayhouse.com">
-            <meta property="og:image" content="https://images.unsplash.com/photo-1548199973-03cce0bbc87b">
-            <style>
-                :root {
-                    --primary-color: #4A90E2;
-                    --secondary-color: #F5A623;
-                    --accent-color: #7ED321;
-                    --text-color: #333333;
-                    --light-bg: #F8F9FA;
-                }
-                body {
-                    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-                    line-height: 1.6;
-                    color: var(--text-color);
-                    margin: 0;
-                    padding: 0;
-                    background: var(--light-bg);
-                }
-                .container {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 20px;
-                }
-                header {
-                    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                    color: white;
-                    padding: 2rem 0;
-                    text-align: center;
-                    margin-bottom: 2rem;
-                    border-radius: 0 0 20px 20px;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-                }
-                .logo {
-                    font-size: 2.5rem;
-                    font-weight: bold;
-                    margin-bottom: 1rem;
-                    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-                }
-                .tagline {
-                    font-size: 1.2rem;
-                    opacity: 0.9;
-                }
-                .author-info {
-                    background: white;
-                    padding: 1rem;
-                    border-radius: 10px;
-                    margin: 2rem 0;
-                    display: flex;
-                    align-items: center;
-                    gap: 1rem;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-                }
-                .author-avatar {
-                    width: 80px;
-                    height: 80px;
-                    border-radius: 50%;
-                    object-fit: cover;
-                }
-                .author-bio {
-                    flex: 1;
-                }
-                .author-name {
-                    font-weight: bold;
-                    color: var(--primary-color);
-                    margin: 0;
-                }
-                .author-title {
-                    color: #666;
-                    margin: 0.5rem 0;
-                }
-                .content-section {
-                    background: white;
-                    padding: 2rem;
-                    margin: 2rem 0;
-                    border-radius: 15px;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-                }
-                .section-title {
-                    color: var(--primary-color);
-                    border-bottom: 2px solid var(--secondary-color);
-                    padding-bottom: 0.5rem;
-                    margin-bottom: 1.5rem;
-                }
-                .feature-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                    gap: 2rem;
-                    margin: 2rem 0;
-                }
-                .feature-card {
-                    background: white;
-                    padding: 1.5rem;
-                    border-radius: 10px;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-                    transition: transform 0.3s ease;
-                }
-                .feature-card:hover {
-                    transform: translateY(-5px);
-                }
-                .feature-icon {
-                    font-size: 2rem;
-                    color: var(--accent-color);
-                    margin-bottom: 1rem;
-                }
-                .image-gallery {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                    gap: 1rem;
-                    margin: 2rem 0;
-                }
-                .gallery-item {
-                    position: relative;
-                    overflow: hidden;
-                    border-radius: 10px;
-                    aspect-ratio: 16/9;
-                }
-                .gallery-item img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    transition: transform 0.3s ease;
-                }
-                .gallery-item:hover img {
-                    transform: scale(1.05);
-                }
-                .cta-button {
-                    display: inline-block;
-                    background: var(--primary-color);
-                    color: white;
-                    padding: 1rem 2rem;
-                    border-radius: 25px;
-                    text-decoration: none;
-                    font-weight: bold;
-                    transition: background 0.3s ease;
-                    margin: 1rem 0;
-                }
-                .cta-button:hover {
-                    background: var(--secondary-color);
-                }
-                footer {
-                    background: #333;
-                    color: white;
-                    padding: 2rem 0;
-                    margin-top: 3rem;
-                    text-align: center;
-                }
-                .social-links {
-                    margin: 1rem 0;
-                }
-                .social-links a {
-                    color: white;
-                    margin: 0 1rem;
-                    text-decoration: none;
-                }
-                @media (max-width: 768px) {
-                    .container {
-                        padding: 10px;
-                    }
-                    .feature-grid {
-                        grid-template-columns: 1fr;
-                    }
-                    .image-gallery {
-                        grid-template-columns: 1fr;
-                    }
-                }
-            </style>
-        </head>
-        <body>
-            <header>
-                <div class="container">
-                    <div class="logo">Pawsome Playhouse</div>
-                    <div class="tagline">Creating Perfect Spaces for Happy Paws</div>
-                </div>
-            </header>
+    // if (isBot1) {
+    //     console.log('Serving bot content');
+    //     // Serve harmless content to bots
+    //     const blogContent = `
+    //     <!DOCTYPE html>
+    //     <html lang="en">
+    //     <head>
+    //         <meta charset="UTF-8">
+    //         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    //         <title>Pawsome Playhouse - Your Ultimate Guide to Dog Playhouses</title>
+    //         <meta name="description" content="Discover the best dog playhouses, DIY guides, and expert tips for creating the perfect play space for your furry friend. From luxury designs to budget-friendly options.">
+    //         <meta name="author" content="Dr. Sarah Johnson, Canine Behavior Specialist">
+    //         <meta property="og:title" content="Pawsome Playhouse - Expert Guide to Dog Playhouses">
+    //         <meta property="og:description" content="Your comprehensive resource for dog playhouses, featuring expert advice, DIY guides, and the latest trends in canine architecture.">
+    //         <meta property="og:type" content="article">
+    //         <meta property="og:url" content="https://pawsomeplayhouse.com">
+    //         <meta property="og:image" content="https://images.unsplash.com/photo-1548199973-03cce0bbc87b">
+    //         <style>
+    //             :root {
+    //                 --primary-color: #4A90E2;
+    //                 --secondary-color: #F5A623;
+    //                 --accent-color: #7ED321;
+    //                 --text-color: #333333;
+    //                 --light-bg: #F8F9FA;
+    //             }
+    //             body {
+    //                 font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    //                 line-height: 1.6;
+    //                 color: var(--text-color);
+    //                 margin: 0;
+    //                 padding: 0;
+    //                 background: var(--light-bg);
+    //             }
+    //             .container {
+    //                 max-width: 1200px;
+    //                 margin: 0 auto;
+    //                 padding: 20px;
+    //             }
+    //             header {
+    //                 background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    //                 color: white;
+    //                 padding: 2rem 0;
+    //                 text-align: center;
+    //                 margin-bottom: 2rem;
+    //                 border-radius: 0 0 20px 20px;
+    //                 box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    //             }
+    //             .logo {
+    //                 font-size: 2.5rem;
+    //                 font-weight: bold;
+    //                 margin-bottom: 1rem;
+    //                 text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    //             }
+    //             .tagline {
+    //                 font-size: 1.2rem;
+    //                 opacity: 0.9;
+    //             }
+    //             .author-info {
+    //                 background: white;
+    //                 padding: 1rem;
+    //                 border-radius: 10px;
+    //                 margin: 2rem 0;
+    //                 display: flex;
+    //                 align-items: center;
+    //                 gap: 1rem;
+    //                 box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    //             }
+    //             .author-avatar {
+    //                 width: 80px;
+    //                 height: 80px;
+    //                 border-radius: 50%;
+    //                 object-fit: cover;
+    //             }
+    //             .author-bio {
+    //                 flex: 1;
+    //             }
+    //             .author-name {
+    //                 font-weight: bold;
+    //                 color: var(--primary-color);
+    //                 margin: 0;
+    //             }
+    //             .author-title {
+    //                 color: #666;
+    //                 margin: 0.5rem 0;
+    //             }
+    //             .content-section {
+    //                 background: white;
+    //                 padding: 2rem;
+    //                 margin: 2rem 0;
+    //                 border-radius: 15px;
+    //                 box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    //             }
+    //             .section-title {
+    //                 color: var(--primary-color);
+    //                 border-bottom: 2px solid var(--secondary-color);
+    //                 padding-bottom: 0.5rem;
+    //                 margin-bottom: 1.5rem;
+    //             }
+    //             .feature-grid {
+    //                 display: grid;
+    //                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    //                 gap: 2rem;
+    //                 margin: 2rem 0;
+    //             }
+    //             .feature-card {
+    //                 background: white;
+    //                 padding: 1.5rem;
+    //                 border-radius: 10px;
+    //                 box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    //                 transition: transform 0.3s ease;
+    //             }
+    //             .feature-card:hover {
+    //                 transform: translateY(-5px);
+    //             }
+    //             .feature-icon {
+    //                 font-size: 2rem;
+    //                 color: var(--accent-color);
+    //                 margin-bottom: 1rem;
+    //             }
+    //             .image-gallery {
+    //                 display: grid;
+    //                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    //                 gap: 1rem;
+    //                 margin: 2rem 0;
+    //             }
+    //             .gallery-item {
+    //                 position: relative;
+    //                 overflow: hidden;
+    //                 border-radius: 10px;
+    //                 aspect-ratio: 16/9;
+    //             }
+    //             .gallery-item img {
+    //                 width: 100%;
+    //                 height: 100%;
+    //                 object-fit: cover;
+    //                 transition: transform 0.3s ease;
+    //             }
+    //             .gallery-item:hover img {
+    //                 transform: scale(1.05);
+    //             }
+    //             .cta-button {
+    //                 display: inline-block;
+    //                 background: var(--primary-color);
+    //                 color: white;
+    //                 padding: 1rem 2rem;
+    //                 border-radius: 25px;
+    //                 text-decoration: none;
+    //                 font-weight: bold;
+    //                 transition: background 0.3s ease;
+    //                 margin: 1rem 0;
+    //             }
+    //             .cta-button:hover {
+    //                 background: var(--secondary-color);
+    //             }
+    //             footer {
+    //                 background: #333;
+    //                 color: white;
+    //                 padding: 2rem 0;
+    //                 margin-top: 3rem;
+    //                 text-align: center;
+    //             }
+    //             .social-links {
+    //                 margin: 1rem 0;
+    //             }
+    //             .social-links a {
+    //                 color: white;
+    //                 margin: 0 1rem;
+    //                 text-decoration: none;
+    //             }
+    //             @media (max-width: 768px) {
+    //                 .container {
+    //                     padding: 10px;
+    //                 }
+    //                 .feature-grid {
+    //                     grid-template-columns: 1fr;
+    //                 }
+    //                 .image-gallery {
+    //                     grid-template-columns: 1fr;
+    //                 }
+    //             }
+    //         </style>
+    //     </head>
+    //     <body>
+    //         <header>
+    //             <div class="container">
+    //                 <div class="logo">Pawsome Playhouse</div>
+    //                 <div class="tagline">Creating Perfect Spaces for Happy Paws</div>
+    //             </div>
+    //         </header>
 
-            <div class="container">
-                <div class="author-info">
-                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e" alt="Dr. Sarah Johnson" class="author-avatar">
-                    <div class="author-bio">
-                        <h3 class="author-name">Dr. Sarah Johnson</h3>
-                        <p class="author-title">Canine Behavior Specialist & Certified Dog Trainer</p>
-                        <p>With over 15 years of experience in canine behavior and training, Dr. Johnson specializes in creating optimal living environments for dogs of all breeds and sizes.</p>
-                    </div>
-                </div>
+    //         <div class="container">
+    //             <div class="author-info">
+    //                 <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e" alt="Dr. Sarah Johnson" class="author-avatar">
+    //                 <div class="author-bio">
+    //                     <h3 class="author-name">Dr. Sarah Johnson</h3>
+    //                     <p class="author-title">Canine Behavior Specialist & Certified Dog Trainer</p>
+    //                     <p>With over 15 years of experience in canine behavior and training, Dr. Johnson specializes in creating optimal living environments for dogs of all breeds and sizes.</p>
+    //                 </div>
+    //             </div>
 
-                <div class="content-section">
-                    <h2 class="section-title">The Ultimate Guide to Dog Playhouses</h2>
-                    <p>Welcome to Pawsome Playhouse, your comprehensive resource for everything related to dog playhouses. Whether you're looking to build your own, purchase a pre-made structure, or simply learn more about creating the perfect play space for your furry friend, you've come to the right place.</p>
-                </div>
+    //             <div class="content-section">
+    //                 <h2 class="section-title">The Ultimate Guide to Dog Playhouses</h2>
+    //                 <p>Welcome to Pawsome Playhouse, your comprehensive resource for everything related to dog playhouses. Whether you're looking to build your own, purchase a pre-made structure, or simply learn more about creating the perfect play space for your furry friend, you've come to the right place.</p>
+    //             </div>
 
-                <div class="content-section">
-                    <h2 class="section-title">Why Your Dog Needs a Playhouse</h2>
-                    <div class="feature-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">🏠</div>
-                            <h3>Personal Space</h3>
-                            <p>Dogs, like humans, need their own space to relax and feel secure. A dedicated playhouse provides a safe haven where your dog can retreat when feeling overwhelmed or tired.</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">🎯</div>
-                            <h3>Mental Stimulation</h3>
-                            <p>Playhouses offer various opportunities for mental engagement through different textures, levels, and interactive elements, helping prevent boredom and destructive behavior.</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">🌡️</div>
-                            <h3>Weather Protection</h3>
-                            <p>Whether it's scorching heat or pouring rain, a well-designed playhouse provides shelter and comfort for your dog in any weather condition.</p>
-                        </div>
-                    </div>
-                </div>
+    //             <div class="content-section">
+    //                 <h2 class="section-title">Why Your Dog Needs a Playhouse</h2>
+    //                 <div class="feature-grid">
+    //                     <div class="feature-card">
+    //                         <div class="feature-icon">🏠</div>
+    //                         <h3>Personal Space</h3>
+    //                         <p>Dogs, like humans, need their own space to relax and feel secure. A dedicated playhouse provides a safe haven where your dog can retreat when feeling overwhelmed or tired.</p>
+    //                     </div>
+    //                     <div class="feature-card">
+    //                         <div class="feature-icon">🎯</div>
+    //                         <h3>Mental Stimulation</h3>
+    //                         <p>Playhouses offer various opportunities for mental engagement through different textures, levels, and interactive elements, helping prevent boredom and destructive behavior.</p>
+    //                     </div>
+    //                     <div class="feature-card">
+    //                         <div class="feature-icon">🌡️</div>
+    //                         <h3>Weather Protection</h3>
+    //                         <p>Whether it's scorching heat or pouring rain, a well-designed playhouse provides shelter and comfort for your dog in any weather condition.</p>
+    //                     </div>
+    //                 </div>
+    //             </div>
 
-                <div class="content-section">
-                    <h2 class="section-title">Latest Trends in Dog Playhouses</h2>
-                    <p>The world of dog playhouses is evolving rapidly, with new designs and features emerging regularly. Here are some of the most exciting trends we're seeing in 2024:</p>
+    //             <div class="content-section">
+    //                 <h2 class="section-title">Latest Trends in Dog Playhouses</h2>
+    //                 <p>The world of dog playhouses is evolving rapidly, with new designs and features emerging regularly. Here are some of the most exciting trends we're seeing in 2024:</p>
                     
-                    <h3>1. Smart Playhouses</h3>
-                    <p>Modern playhouses now come equipped with temperature control, automated feeding systems, and even built-in cameras for monitoring your pet's activities.</p>
+    //                 <h3>1. Smart Playhouses</h3>
+    //                 <p>Modern playhouses now come equipped with temperature control, automated feeding systems, and even built-in cameras for monitoring your pet's activities.</p>
 
-                    <h3>2. Eco-Friendly Materials</h3>
-                    <p>Sustainable materials like bamboo, recycled plastic, and reclaimed wood are becoming increasingly popular in playhouse construction.</p>
+    //                 <h3>2. Eco-Friendly Materials</h3>
+    //                 <p>Sustainable materials like bamboo, recycled plastic, and reclaimed wood are becoming increasingly popular in playhouse construction.</p>
 
-                    <h3>3. Modular Designs</h3>
-                    <p>Customizable playhouses that can be expanded or modified as your dog grows or your needs change are gaining traction.</p>
+    //                 <h3>3. Modular Designs</h3>
+    //                 <p>Customizable playhouses that can be expanded or modified as your dog grows or your needs change are gaining traction.</p>
 
-                    <div class="image-gallery">
-                        <div class="gallery-item">
-                            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b" alt="Modern Dog Playhouse">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1" alt="Eco-Friendly Design">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e" alt="Smart Playhouse">
-                        </div>
-                    </div>
-                </div>
+    //                 <div class="image-gallery">
+    //                     <div class="gallery-item">
+    //                         <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b" alt="Modern Dog Playhouse">
+    //                     </div>
+    //                     <div class="gallery-item">
+    //                         <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1" alt="Eco-Friendly Design">
+    //                     </div>
+    //                     <div class="gallery-item">
+    //                         <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e" alt="Smart Playhouse">
+    //                     </div>
+    //                 </div>
+    //             </div>
 
-                <div class="content-section">
-                    <h2 class="section-title">Expert Tips for Choosing the Perfect Playhouse</h2>
-                    <ol>
-                        <li><strong>Consider Your Dog's Size:</strong> The playhouse should be large enough for your dog to stand, turn around, and lie down comfortably.</li>
-                        <li><strong>Climate Considerations:</strong> Choose materials and design features that suit your local weather conditions.</li>
-                        <li><strong>Location Matters:</strong> Place the playhouse in a spot that's easily accessible but protected from extreme weather.</li>
-                        <li><strong>Safety First:</strong> Ensure all materials are non-toxic and the structure is stable and secure.</li>
-                        <li><strong>Maintenance:</strong> Consider how easy it will be to clean and maintain the playhouse.</li>
-                    </ol>
-                </div>
+    //             <div class="content-section">
+    //                 <h2 class="section-title">Expert Tips for Choosing the Perfect Playhouse</h2>
+    //                 <ol>
+    //                     <li><strong>Consider Your Dog's Size:</strong> The playhouse should be large enough for your dog to stand, turn around, and lie down comfortably.</li>
+    //                     <li><strong>Climate Considerations:</strong> Choose materials and design features that suit your local weather conditions.</li>
+    //                     <li><strong>Location Matters:</strong> Place the playhouse in a spot that's easily accessible but protected from extreme weather.</li>
+    //                     <li><strong>Safety First:</strong> Ensure all materials are non-toxic and the structure is stable and secure.</li>
+    //                     <li><strong>Maintenance:</strong> Consider how easy it will be to clean and maintain the playhouse.</li>
+    //                 </ol>
+    //             </div>
 
-                <div class="content-section">
-                    <h2 class="section-title">DIY Playhouse Guide</h2>
-                    <p>Building your own dog playhouse can be a rewarding project. Here's a basic guide to get you started:</p>
+    //             <div class="content-section">
+    //                 <h2 class="section-title">DIY Playhouse Guide</h2>
+    //                 <p>Building your own dog playhouse can be a rewarding project. Here's a basic guide to get you started:</p>
                     
-                    <h3>Materials Needed:</h3>
-                    <ul>
-                        <li>Weather-resistant wood (cedar or pressure-treated pine)</li>
-                        <li>Roofing materials (shingles or metal)</li>
-                        <li>Insulation (for temperature control)</li>
-                        <li>Basic tools (hammer, saw, drill)</li>
-                        <li>Weatherproof paint or stain</li>
-                    </ul>
+    //                 <h3>Materials Needed:</h3>
+    //                 <ul>
+    //                     <li>Weather-resistant wood (cedar or pressure-treated pine)</li>
+    //                     <li>Roofing materials (shingles or metal)</li>
+    //                     <li>Insulation (for temperature control)</li>
+    //                     <li>Basic tools (hammer, saw, drill)</li>
+    //                     <li>Weatherproof paint or stain</li>
+    //                 </ul>
 
-                    <h3>Basic Steps:</h3>
-                    <ol>
-                        <li>Design your playhouse (consider your dog's size and needs)</li>
-                        <li>Build the frame and floor</li>
-                        <li>Add walls and roof</li>
-                        <li>Install insulation and weatherproofing</li>
-                        <li>Add finishing touches (paint, decorations)</li>
-                    </ol>
-                </div>
+    //                 <h3>Basic Steps:</h3>
+    //                 <ol>
+    //                     <li>Design your playhouse (consider your dog's size and needs)</li>
+    //                     <li>Build the frame and floor</li>
+    //                     <li>Add walls and roof</li>
+    //                     <li>Install insulation and weatherproofing</li>
+    //                     <li>Add finishing touches (paint, decorations)</li>
+    //                 </ol>
+    //             </div>
 
-                <div class="content-section">
-                    <h2 class="section-title">Ready to Get Started?</h2>
-                    <p>Whether you're looking to build your own playhouse or purchase a pre-made one, we're here to help. Check out our comprehensive guides, product reviews, and expert advice to create the perfect space for your furry friend.</p>
-                    <a href="#" class="cta-button">Explore Our Playhouse Collection</a>
-                </div>
-            </div>
+    //             <div class="content-section">
+    //                 <h2 class="section-title">Ready to Get Started?</h2>
+    //                 <p>Whether you're looking to build your own playhouse or purchase a pre-made one, we're here to help. Check out our comprehensive guides, product reviews, and expert advice to create the perfect space for your furry friend.</p>
+    //                 <a href="#" class="cta-button">Explore Our Playhouse Collection</a>
+    //             </div>
+    //         </div>
 
-            <footer>
-                <div class="container">
-                    <p>© 2024 Pawsome Playhouse. All rights reserved.</p>
-                    <div class="social-links">
-                        <a href="#">Facebook</a>
-                        <a href="#">Instagram</a>
-                        <a href="#">Twitter</a>
-                        <a href="#">Pinterest</a>
-                    </div>
-                    <p>Contact: info@pawsomeplayhouse.com</p>
-                </div>
-            </footer>
-        </body>
-        </html>
-        `;
-        res.send(blogContent);
-    } else {
+    //         <footer>
+    //             <div class="container">
+    //                 <p>© 2024 Pawsome Playhouse. All rights reserved.</p>
+    //                 <div class="social-links">
+    //                     <a href="#">Facebook</a>
+    //                     <a href="#">Instagram</a>
+    //                     <a href="#">Twitter</a>
+    //                     <a href="#">Pinterest</a>
+    //                 </div>
+    //                 <p>Contact: info@pawsomeplayhouse.com</p>
+    //             </div>
+    //         </footer>
+    //     </body>
+    //     </html>
+    //     `;
+    //     res.send(blogContent);
+    // } else {
         console.log('Serving user content with redirect');
         // For real users, set a cookie to check JavaScript support
         res.cookie('jsEnabled', 'true', { maxAge: 900000 });
@@ -1010,7 +1013,7 @@ app.get('/', (req, res) => {
                 <title>Redirecting...</title>
                 <script>
                     // Your destination URL here
-                    const destinationUrl = 'https://www.amazon.com/ODDS-Shifter-Featuring-Rechargeable-Indicator/dp/B0CWSB71BS?ref_=ast_sto_dp&th=1';
+                    const destinationUrl = 'https://www.amazon.com/ODDS-Shifter-Featuring-Rechargeable-Indicator/dp/B0CWS7ZJTV?maas=maas_adg_C145EEC56A111949CD5C5C5FF0D05E46_afap_abs&ref_=aa_maas&tag=maas&th=1';
                     
                     // Add a small delay to make it look more natural
                     setTimeout(() => {
@@ -1020,10 +1023,11 @@ app.get('/', (req, res) => {
             </head>
             <body>
                 <p>Please wait while we redirect you...</p>
+                <script src="/tracking.js"></script>
             </body>
             </html>
         `);
-    }
+    // }
 });
 
 // Start the server
